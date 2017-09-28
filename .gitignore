@@ -1,5 +1,7 @@
 *
 !/**/
 !*.*
+!Makefile
+!makefile
 *.out
 *.exe
