@@ -1,0 +1,30 @@
+[zfalkner@scyld CSCI595_software_opt]$ ./mms 65536 2
+Took 0.01013 seconds
+[zfalkner@scyld CSCI595_software_opt]$ ./mms 65536 4
+Took 0.008059 seconds
+[zfalkner@scyld CSCI595_software_opt]$ ./mms 65536 8
+Took 0.006308 seconds
+[zfalkner@scyld CSCI595_software_opt]$ ./mms 65536 16
+Took 0.006102 seconds
+[zfalkner@scyld CSCI595_software_opt]$ ./mms 65536 32
+Took 0.007513 seconds
+[zfalkner@scyld CSCI595_software_opt]$ ./mms 65536 64
+Took 0.009582 seconds
+
+
+[zfalkner@scyld CSCI595_software_opt]$ ./mms2 65536 2
+Took 0.003879 seconds
+[zfalkner@scyld CSCI595_software_opt]$ ./mms2 65536 4
+Took 0.002208 seconds
+[zfalkner@scyld CSCI595_software_opt]$ ./mms2 65536 8
+Took 0.004859 seconds
+[zfalkner@scyld CSCI595_software_opt]$ ./mms2 65536 16
+Took 0.005284 seconds
+[zfalkner@scyld CSCI595_software_opt]$ ./mms2 65536 32
+Took 0.006504 seconds
+[zfalkner@scyld CSCI595_software_opt]$ ./mms2 65536 64
+Took 0.009113 seconds
+
+
+[zfalkner@scyld CSCI595_software_opt]$ ./qs 65536
+Took 0.008029 seconds
