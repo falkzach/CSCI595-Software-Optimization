@@ -11,7 +11,7 @@ const unsigned char padding = 32;
 
 bool advance_single(bool*board, const unsigned int C, int r, int c) {
 	unsigned char living_neighbors = 0;
-	#pragma omp simd
+	#pragma omp simd reduction(+:living_neighbors)
 	for (int i=-1; i<=1; ++i) {
 		for (int j=-1; j<=1; ++j) {
 			living_neighbors += (board[(r+i) * (C+ (padding * 2)) + (c+j)]);
@@ -24,7 +24,7 @@ bool advance_single(bool*board, const unsigned int C, int r, int c) {
 
 void advance(bool*cur, bool*prev, const unsigned int R, const unsigned int C) {
 	unsigned int i, j;
-	#pragma omp parallel for private(j)
+	#pragma omp parallel for private(j) schedule(dynamic)
 	for(i=padding; i<R+padding; ++i) {
 		for (j=padding; j<C+padding; ++j) {
 			cur[i * (C+ (padding * 2)) + j] = advance_single(prev, C, i, j);

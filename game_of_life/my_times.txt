@@ -1,3 +1,6 @@
+all times run for 1000 iterations on my home desktop
+the two times from the best reading implementations are included as a baseline
+
 reading bit twiddle:		17.5412
 reading buffer with table:	17.2207
 bitset w. no sub:			24.3822
@@ -7,4 +10,6 @@ padding Wextra:				15.0749
 loop unroll:				16.0565
 omp w. padding, no sub:		5.03448 (THIS SCALES WITH CORES!!!!)
 omp w. private j:			4.93052
-omp w. simd read:			4.5965 (not available on mtech???)
+omp w. simd read:			4.5965 (not available on older omp)
+omp w. dynamic schedule:	4.3218
+omp w. reduction:			4.24068
