@@ -11,7 +11,7 @@ const unsigned char padding = 32;
 
 void advance(bool*cur, bool*prev, const unsigned int R, const unsigned int C) {
 	unsigned int i, j;
-	#pragma omp parallel for private(j) schedule(dynamic)
+	#pragma omp parallel for private(j) schedule(dynamic, 3)
 	for(i=padding; i<R+padding; ++i) {
 		for (j=padding; j<C+padding; ++j) {
 			unsigned char living_neighbors = 0;

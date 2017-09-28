@@ -14,3 +14,4 @@ omp w. simd read:			4.5965 (not available on older omp)
 omp w. dynamic schedule:	4.3218
 omp w. reduction:			4.24068
 omp shorter call stack:		4.154
+omg guided/dynamic 3:		3.87427
