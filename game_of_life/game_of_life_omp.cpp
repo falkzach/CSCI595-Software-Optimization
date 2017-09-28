@@ -9,25 +9,21 @@ const bool am_i_alive[2][9] = {
 
 const unsigned char padding = 32;
 
-bool advance_single(bool*board, const unsigned int C, int r, int c) {
-	unsigned char living_neighbors = 0;
-	#pragma omp simd reduction(+:living_neighbors)
-	for (int i=-1; i<=1; ++i) {
-		for (int j=-1; j<=1; ++j) {
-			living_neighbors += (board[(r+i) * (C+ (padding * 2)) + (c+j)]);
-		}
-	}
-
-	const bool is_this_cell_living = (board[r * (C+ (padding * 2)) + c]);
-	return am_i_alive[is_this_cell_living][living_neighbors];
-}
-
 void advance(bool*cur, bool*prev, const unsigned int R, const unsigned int C) {
 	unsigned int i, j;
 	#pragma omp parallel for private(j) schedule(dynamic)
 	for(i=padding; i<R+padding; ++i) {
 		for (j=padding; j<C+padding; ++j) {
-			cur[i * (C+ (padding * 2)) + j] = advance_single(prev, C, i, j);
+			unsigned char living_neighbors = 0;
+			#pragma omp simd reduction(+:living_neighbors)
+			for (char r=-1; r<=1; ++r) {
+				for (char c=-1; c<=1; ++c) {
+					living_neighbors += (prev[(r+i) * (C+ (padding * 2)) + (c+j)]);
+				}
+			}
+
+			const bool is_this_cell_living = (prev[i * (C+ (padding * 2)) + j]);
+			cur[i * (C+ (padding * 2)) + j] = am_i_alive[is_this_cell_living][living_neighbors];
 		}
 	}
 }
