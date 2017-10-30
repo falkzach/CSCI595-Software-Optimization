@@ -1,0 +1,16 @@
+1.)
+srand(0)
+N=100000
+Took 0.001679 seconds
+sum: 4175399061378
+see attached code
+
+2.)
+sorting the vector of keys and early stopping (similar to listing 7.3 with a break statement added) was the fastest. It could be improved by filtering the vector of keys to a list only including keys and eliminating the if statement. This was about 4x faster than iterating over all the keys.
+
+3.)
+largest array index: 2^b
+constant insertions on perfect hash
+constant lookup on perfect hash
+log(n) insertions and lookups on a balanced tree
+compute hash, look at memory as opposed to traversing pointers in a tree
