@@ -1,0 +1,65 @@
+\title{
+	CSCI595 Software Optimization\\
+	Chapter 10 Problems\\
+}
+\author{
+	Zachary Falkner\\
+	Department of Computer Science\\
+	University of Montana\\
+}
+\date{\today}
+\documentclass[12pt]{article}
+
+\usepackage{enumitem, listings}
+
+\begin{document}
+	\maketitle
+	
+	\clearpage
+	\begin{flushleft}
+		\section*{Problems}
+		
+		\subsection*{OS10-1}
+		One performance advantage of inlining short functions is that it eliminates the overhead of pushing values onto and reading results from the stack.\\
+		However this comes at the cost of an inflated opcache and larger overall executable, cons to be weighed.
+		
+		\subsection*{OS10-2}
+		The compiler would not find any loop-invariant code within
+		\begin{lstlisting}
+		for (int i=0; i<N; ++i) vec[i]/=1.7;
+		\end{lstlisting}
+		because there is no loop invariant code. If there were some loop-invariant code, such as a repeated calculation on the left side, the compiler might not take advantage of extracting it due to order of operation concerns with doubles which could result in loss of precision and altered outcome.\\
+		
+		The compiler might however be able to leverage SIMD here, as a same operation is being performed to contiguous memory space.\\
+		
+		\subsection*{OS10-3}
+		See attached doodle.\\
+		
+		there are WaR dependencies that can begin some calculations before finishing others in the a,b,c blocks.\\
+		The final 5 operations ($x-=z$) can all be performed in parallel.\\
+		$a=b+c;$ does not need to be computed the first time, it is never used.\\
+		$c=d+e;$ does not need to be re-computed as the values $e$ and $d$ have not changed.\\
+		
+		\subsection*{OS10-4}
+		See attached doodle.\\
+		
+		Unfortunately in this example, we cannot leverage any parallelism or eliminate any work. Because multiple pointers could be pointing to the same thing, the compiler will err on the side of caution and perform each of the operations sequentially so as to not risk erroneous behavior.\\
+		
+		\subsection*{OS10-5}
+		Loop reordering cannot be safely performed here, swapping the $k$ and $i$ loops changes the result.\\
+		
+		\subsection*{OS10-6}
+		It appears that swapping the loops does provide a significant performance advantage (~30\%). Unfortunately faster is not better if it's wrong.\\
+		
+		\subsection*{OS10-7}
+		It appears that the compiler is able to figure out Gauss Multiplication, slightly better than myself actually.\\
+		\begin{lstlisting}
+		Naieve
+		Took 0.01542 seconds
+		Gauss
+		Took 0.017688 seconds
+		\end{lstlisting}
+		These results fluctuate a bit with runs but the Naive is consistently faster (not by much) than my Gauss implementation. Unlike the shifting based on the result of a subtraction, there is not a strange edge case that the compiler doesn't know how to handle. The subtraction could potentially result in shifting around the other direction (as discussed in the text). However in the case of Gauss Multiplication, the compiler is quite good at algebraic decomposition and factoring. Much better than my white board.\\ 
+
+	\end{flushleft}
+\end{document}

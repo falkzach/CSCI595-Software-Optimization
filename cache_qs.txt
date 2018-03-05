@@ -1,0 +1,22 @@
+1.)	☹
+
+2.)	they can come from anywhere in RAM and have no guarantee of being adjacent to eachother.
+	together they would be unsigned long* of length 2 * n
+	to guarantee adjacency we could simply combine them into a single unsigned long* and then either treat each half as long and data or interweave alternating elements of half and data, depending on the implementation need.
+
+3.)	see attached doodle
+
+4.)	as the matrix size increases, it no longer fits in L1, L2, L3 subsequently and we have to go out to main ram
+	the effects of this are substantially dragged out by the recursive algorithm
+
+	see attached plot
+
+	L1 Data 2x32KBytes
+	L1 Inst. 2x32KBytes
+	L2 2x256KBytes
+	L3 3MBytes
+
+
+5.)	by using a naive matrix transposition on my B matrix and accessing into it in a more cache friendly manner, I saw a ~10x speedup
+	Took 13.132 seconds	- standard O(n^3)
+	Took 1.41762 seconds	- transposed B O(n^3)

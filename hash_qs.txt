@@ -1,0 +1,26 @@
+1.)
+
+set of sets Took 17.6629 seconds
+map of sets Took 14.9323 seconds
+
+There is a slight performance increase over 8.1, even with the extra iteration over the map
+
+set of universal hash Took 12.1699 seconds
+map of universal hash Took seconds 14.072 seconds
+
+note it took 12.1749 without the additional if %2 ==1, = 0 loop
+
+i beleive the gain in performance in the set of sets had to do with contiguous memory space,
+while with the maps, its points all over the place so we see no improvement using the map.
+
+
+2.)
+
+
+
+3.)
+sizeof(unsigned long) returns 8 provides use that a long has 8 bytes, and therefor 64 bits
+we can store a of t up to the size of 2^64.
+
+
+I feel that I tried to do to many things this past week and the quality of my work here reflects that, I will try to do less better.

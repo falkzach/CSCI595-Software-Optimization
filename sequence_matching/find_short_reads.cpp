@@ -212,8 +212,25 @@ int main(int argc, char**argv) {
 		for(unsigned long i=0; i < packed_shorts.size(); ++i) {
 			std::sort(all_indices[i].begin(), all_indices[i].end());
 			std::cout << short_reads[i] << " ";
-			for (unsigned long j: all_indices[i]) {
-				std::cout << j << " ";
+
+			/*
+			 * original output loop that resulted in trailing whitespace
+			 */
+			// for (unsigned long j: all_indices[i]) {
+			// 	std::cout << j << " ";
+			// }
+
+			/*
+			 * loop that checks for last iteration and does not include whitespace
+			 * note that this requires an extra check for the case of no matches
+			 */
+			if(all_indices[i].size() > 0) {
+				for (unsigned long j=0; j< all_indices[i].size(); ++j) {
+					std::cout << all_indices[i][j];
+					if (j < all_indices[i].size() - 1) {
+						std::cout << " ";
+					}
+				}
 			}
 			std::cout << std::endl;
 		}
