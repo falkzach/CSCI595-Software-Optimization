@@ -1,37 +1,39 @@
 #include "../Clock.hpp"
-#include <omp.h>
 #include <iostream>
+#include <omp.h>
 
 const bool am_i_alive[2][9] = {
 	{false, false, false, true, false, false, false, false, false},
 	{false, false, false, true, true, false, false, false, false}
 };
 
-const unsigned char padding = 32;
+const unsigned char PADDING = 32;
 
 void advance(bool*cur, bool*prev, const unsigned int R, const unsigned int C) {
 	unsigned int i, j;
+	const unsigned int offset = (C + (PADDING * 2));
 	#pragma omp parallel for private(j) schedule(dynamic, 3)
-	for(i=padding; i<R+padding; ++i) {
-		for (j=padding; j<C+padding; ++j) {
+	for (i=PADDING; i<R+PADDING; ++i) {
+		for (j=PADDING; j<C+PADDING; ++j) {
 			unsigned char living_neighbors = 0;
 			#pragma omp simd reduction(+:living_neighbors)
 			for (char r=-1; r<=1; ++r) {
 				for (char c=-1; c<=1; ++c) {
-					living_neighbors += (prev[(r+i) * (C+ (padding * 2)) + (c+j)]);
+					living_neighbors += (prev[(r+i) * offset + (c+j)]);
 				}
 			}
 
-			const bool is_this_cell_living = (prev[i * (C+ (padding * 2)) + j]);
-			cur[i * (C+ (padding * 2)) + j] = am_i_alive[is_this_cell_living][living_neighbors];
+			const unsigned int idx = i * offset + j;
+			const bool is_this_cell_living = (prev[idx]);
+			cur[idx] = am_i_alive[is_this_cell_living][living_neighbors];
 		}
 	}
 }
 
 void print_board(bool*board, const unsigned int R, const unsigned int C) {
-	for(unsigned int i=padding; i<R+padding; ++i) {
-		for (unsigned int j=padding; j<C+padding; ++j) {
-			std::cout << int(board[i * (C+ (padding * 2)) + j]);
+	for(unsigned int i=PADDING; i<R+PADDING; ++i) {
+		for (unsigned int j=PADDING; j<C+PADDING; ++j) {
+			std::cout << int(board[i * (C+ (PADDING * 2)) + j]);
 		}
 		std::cout << std::endl;
 	}
@@ -47,12 +49,12 @@ int main(int argc, char**argv) {
 		unsigned int NUM_REPS = atoi(argv[1]);
 		bool print = bool(atoi(argv[2]));
 
-		bool*prev = (bool*)calloc((R+ (padding * 2))*(C+ (padding * 2)),sizeof(bool));
-		bool*cur = (bool*)calloc((R+ (padding * 2))*(C+ (padding * 2)),sizeof(bool));
+		bool*prev = (bool*)calloc((R+ (PADDING * 2))*(C+ (PADDING * 2)),sizeof(bool));
+		bool*cur = (bool*)calloc((R+ (PADDING * 2))*(C+ (PADDING * 2)),sizeof(bool));
 
-		for(unsigned int i=padding; i<R+padding; ++i) {
-			for (unsigned int j=padding; j<C+padding; ++j) {
-				cur[i*(C+ (padding * 2))+j] = (rand() % 2 == 0);
+		for(unsigned int i=PADDING; i<R+PADDING; ++i) {
+			for (unsigned int j=PADDING; j<C+PADDING; ++j) {
+				cur[i*(C+ (PADDING * 2))+j] = (rand() % 2 == 0);
 			}
 		}
 
